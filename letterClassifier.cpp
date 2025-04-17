@@ -49,4 +49,11 @@ int main() {
     LIGHT_YELLOW = "\033[1;33m",
     WHITE = "\033[0m",
     BOLD = "\033[1m";
+
+    // Display a greeting message to the user.
+    std::cout << "\n" << LIGHT_PURPLE << "Hello, user! This is a program "
+    << "designed to determine whether " << "an entered\n" << "letter "
+    << "from the English alphabet is a consonant, vowel, or\n"
+    << "semivowel, with extra examples and modes for more information."
+    << WHITE << "\n";
 }
