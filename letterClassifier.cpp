@@ -56,4 +56,5 @@ int main() {
     << "from the English alphabet is a consonant, vowel, or\n"
     << "semivowel, with extra examples and modes for more information."
     << WHITE << "\n";
+    
 }
