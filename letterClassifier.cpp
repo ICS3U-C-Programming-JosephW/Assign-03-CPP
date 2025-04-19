@@ -75,8 +75,8 @@ int main() {
         // Store the input into the user letter variable.
         std::getline(std::cin, userLetter);
 
-        /* Prepare the size of the lowercase string
-        to match the size of the user's letter input. */
+        /* Prepare the size of the lowercase letter to 
+        match the size of the user's base letter input. */
         lowercaseUserLetter.resize(userLetter.size());
 
         /* Convert the user's desired letter into lowercase. 
@@ -97,13 +97,50 @@ int main() {
         /* Display to the user that they must enter
         a valid letter of the English alphabet. */
             std::cout << "\n" << LIGHT_RED << userLetter << " is not a valid " 
-            << "letter of the English alphabet. Please enter a letter from a-z or A-Z."
+            << "letter of the English alphabet.\nPlease enter a letter from a-z or A-Z."
             << WHITE << "\n";
         }
     }
 
-    /* Construct an infinite while loop for the display input.
+    // Construct an infinite while loop for the display input.
     while (true) {
-        
-    } */
+        // Ask the user for their desired display type.
+        std::cout << "\n" << LIGHT_CYAN << "Enter a display type for the letter.\n"
+        << R"(Choices are "simple" (less detailed answer), and "complex" )"
+        << "(more detailed answer):" << WHITE << "\n";
+
+        // Store the input into the user display type variable.
+        std::getline(std::cin, userDisplayType);
+
+        /* Prepare the size of the lowercase user display type to 
+        match the size of the user's base display type. */
+        lowercaseUserDisplayType.resize(userDisplayType.size());
+
+        /* Convert the user's chosen display type into lowercase.
+        std::transform is always needed in this case. */
+        std::transform(userDisplayType.begin(), userDisplayType.end(),
+        lowercaseUserDisplayType.begin(),
+        [](char scannedChar) { return std::tolower(scannedChar); });
+
+        /* Check if the lowercase form of "simple"
+        or "complex" was the entered display type. */
+        if (lowercaseUserDisplayType == "simple"
+        || lowercaseUserDisplayType == "complex") {
+            // Break the infinite loop.
+            break;
+        }
+        else {
+            // Otherwise, they did not enter a valid display type.
+            // Display to the user that they must enter a valid choice.
+            std::cout << "\n" << LIGHT_RED << userDisplayType << " is not "
+            << "a valid choice.\n" << "Please enter either simple or "
+            << "complex for the display type." << WHITE;
+        }
+    }
+
+    /* Construct an infinite while loop
+    for the phonetic symbol choice input. */
+
+    // ...
+    
 }
