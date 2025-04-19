@@ -10,28 +10,28 @@ phonetic symbols and examples if desired. */
 
 /* Include the iostream library and others for
 extra functionalities used in this program. */
+#include <algorithm>
+#include <array>
 #include <iostream>
-#include <limits>
-
 
 // Runs the main function.
 int main() {
     /* Initialize constant arrays for input 
     error detections and displaying information. */
-    const char ENGLISH_LETTERS[] = {
-        'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i',
-        'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r',
-        's', 't', 'u', 'v', 'w', 'x', 'y', 'z'
-    };
-    const std::string PHONETIC_SYMBOLS[] = {
+    const std::array<std::string, 26> ENGLISH_LETTERS = {
+        "a", "b", "c", "d", "e", "f", "g", "h", "i",
+        "j", "k", "l", "m", "n", "o", "p", "q", "r",
+        "s", "t", "u", "v", "w", "x", "y", "z"
+    },
+    PHONETIC_SYMBOLS = {
         "/ˈeɪ/", "/ˈbiː/", "/ˈsiː/", "/ˈdiː/", "/ˈiː/",
         "/ˈɛf/", "/ˈdʒiː/", "/eɪtʃ/", "/ˈaɪ/", "/ˈdʒeɪ/",
         "/ˈkeɪ/", "/ˈɛl/", "/ˈɛm/", "/ˈɛn/", "/ˈoʊ/", 
         "/ˈpiː/", "/ˈkjuː/", "/ˈɑːr/", "/ˈɛs/", "/ˈtiː/",
         "/ˈjuː/", "/ˈviː/", "/ˈdʌb.əlˈjuː/", "/ˈɛks/",
         "/ˈwaɪ/", "/ˈziː/ or /ˈzɛd/" 
-    };
-    const std::string EXAMPLE_WORDS[] = {
+    },
+    EXAMPLE_WORDS = {
         "ate", "bean", "cow", "deed", "ever",
         "friend", "gene", "house", "ice", "jam",
         "kangaroo", "lid", "make", "new", "one",
@@ -51,9 +51,11 @@ int main() {
     WHITE = "\033[0m",
     BOLD = "\033[1m";
 
-    // Declare the string variables for user input.
-    std::string userLetter, userDisplayType;
-    
+    /* Declare the base and lowercase string 
+    variables for user input. */
+    std::string userLetter, lowercaseUserLetter;
+    std::string userDisplayType, lowercaseUserDisplayType;
+   
     // Declare the integer variables for user input.
     int showPhoneticSymbolInt, showPhoneticExampleInt;
 
@@ -65,10 +67,43 @@ int main() {
     << WHITE << "\n";
 
     // Construct an infinite while loop for the letter input.
-    /* while (true) {
+    while (true) {
         // Ask the user to enter a letter.
-        std::cout << DARK_GRAY << "Enter a letter from a-z or A-Z:" << WHITE 
-        << "\n" << "";
+        std::cout << DARK_GRAY << "Enter a letter from a-z or A-Z:" 
+        << WHITE << "\n";
+
+        // Store the input into the user letter variable.
+        std::getline(std::cin, userLetter);
+
+        /* Prepare the size of the lowercase string
+        to match the size of the user's letter input. */
+        lowercaseUserLetter.resize(userLetter.size());
+
+        /* Convert the user's desired letter into lowercase. 
+        Use std::transform to account for invalid letters. */
+        std::transform(userLetter.begin(), userLetter.end(),
+        lowercaseUserLetter.begin(),
+        [](char scannedChar) { return std::tolower(scannedChar); });
+
+        /* Checks if the lowercase form of the letter
+        entered is a letter of the English alphabet. */
+        if (std::find(ENGLISH_LETTERS.begin(), ENGLISH_LETTERS.end(), lowercaseUserLetter)
+        != ENGLISH_LETTERS.end()) {
+            // Break the infinite loop.
+            break;
+        }
+        else {
+        // Otherwise, they did not enter a valid letter.
+        /* Display to the user that they must enter
+        a valid letter of the English alphabet. */
+            std::cout << "\n" << LIGHT_RED << userLetter << " is not a valid " 
+            << "letter of the English alphabet. Please enter a letter from a-z or A-Z."
+            << WHITE << "\n";
+        }
+    }
+
+    /* Construct an infinite while loop for the display input.
+    while (true) {
         
     } */
 }
