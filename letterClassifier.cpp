@@ -16,7 +16,7 @@ extra functionalities used in this program. */
 
 // Runs the main function.
 int main() {
-    /* Initialize constant arrays for input 
+    /* Initialize constant string arrays for input 
     error detections and displaying information. */
     const std::array<std::string, 26> ENGLISH_LETTERS = {
         "a", "b", "c", "d", "e", "f", "g", "h", "i",
@@ -55,8 +55,12 @@ int main() {
     variables for user input. */
     std::string userLetter, lowercaseUserLetter;
     std::string userDisplayType, lowercaseUserDisplayType;
-   
-    // Declare the integer variables for user input.
+
+    /* Declare the choice variables as string forms
+    for user input. */
+    std::string showPhoneticSymbolStr, showPhoneticExampleStr;
+    /* Also, declare the choice variables as integer 
+    forms for conversion management. */
     int showPhoneticSymbolInt, showPhoneticExampleInt;
 
     // Display a greeting message to the user.
@@ -64,7 +68,7 @@ int main() {
     << "designed to determine whether " << "an entered\n" << "letter "
     << "from the English alphabet is a consonant, vowel, or\n"
     << "semivowel, with extra examples and modes for more information."
-    << WHITE << "\n";
+    << WHITE << "\n\n";
 
     // Construct an infinite while loop for the letter input.
     while (true) {
@@ -98,7 +102,7 @@ int main() {
         a valid letter of the English alphabet. */
             std::cout << "\n" << LIGHT_RED << userLetter << " is not a valid " 
             << "letter of the English alphabet.\nPlease enter a letter from a-z or A-Z."
-            << WHITE << "\n";
+            << WHITE << "\n\n";
         }
     }
 
@@ -134,13 +138,101 @@ int main() {
             // Display to the user that they must enter a valid choice.
             std::cout << "\n" << LIGHT_RED << userDisplayType << " is not "
             << "a valid choice.\n" << "Please enter either simple or "
-            << "complex for the display type." << WHITE;
+            << "complex for the display type." << WHITE << "\n";
         }
     }
 
     /* Construct an infinite while loop
     for the phonetic symbol choice input. */
+    while (true) {
+        /* Ask the user if they want a phonetic symbol for 
+        their desired letter. */
+        std::cout << "\n" << LIGHT_YELLOW << "Do you want a phonetic symbol "
+        << "to be displayed for the sound your letter makes?\n"
+        << R"(Choices are "0" for no and "1" for yes:)" << WHITE << "\n";
+ 
+        /* Store the input into the string form of the phonetic 
+        symbol variable. */
+        std::getline(std::cin, showPhoneticSymbolStr);
 
-    // ...
-    
+        /* Try to validate and proceed with the
+        user's choice for a phonetic symbol. */
+        try {
+            // Attempt to convert the entered string into an integer.
+            showPhoneticSymbolInt = std::stoi(showPhoneticSymbolStr);
+
+            // Check if the user entered 0 for no or 1 for yes.
+            if (showPhoneticSymbolInt == 0 
+            || showPhoneticSymbolInt == 1) {
+                /* Construct a nested infinite while loop 
+                for the phonetic example choice input. */ 
+                while (true) {
+                    /* Ask the user if they want a phonetic
+                    example word for their desired letter. */
+                    std::cout << "\n" << LIGHT_BLUE << "Do you want a phonetic "
+                    << "word to be displayed as an example relating to your chosen letter?\n"
+                    << R"(Enter "0" for no and "1" for yes:)" << WHITE << "\n";
+            
+                    /* Store the input into the string 
+                    form of the example variable. */
+                    std::getline(std::cin, showPhoneticExampleStr);
+
+                    /* Try to validate and proceed with the
+                    user's choice for a phonetic example.*/
+                    try {
+                        // Attempt to convert the entered string into an integer.
+                        showPhoneticExampleInt = std::stoi(showPhoneticExampleStr);
+
+                        /* Check if the user entered 0 for no
+                        or 1 for yes for the phonetic example. */
+                        if (showPhoneticExampleInt == 0 
+                        || showPhoneticExampleInt == 1) {
+                            // Break the inner infinite while loop.
+                            break;
+                        }
+                        else {
+                            /* Otherwise, the user entered an integer
+                            out of range for the example choice. */
+                            /* Display to the user that they must enter 0 
+                            for no or 1 for yes for the phonetic example. */
+                            std::cout << "\n" << LIGHT_RED << showPhoneticExampleInt
+                            << " is out of range for choices.\nPlease enter either 0 "
+                            << "for no or 1 for yes." << WHITE << "\n";
+                        }
+                    }
+
+                    /* Runs if std::stoi() could not convert the user's 
+                    string input into an integer for the example choice. */
+                    catch (std::invalid_argument) {
+                        /* Display to the user that they need to enter
+                        a valid integer for the example choice. */
+                        std::cout << "\n" << LIGHT_RED << showPhoneticExampleStr
+                        << " is not a valid integer.\nPlease enter a valid integer."
+                        << WHITE << "\n";
+                    }
+
+                    // Break the outer infinite while loop.
+                    break;
+                }
+            }
+            /* Otherwise, the user entered an integer out of range
+            for the symbol choice. */
+            else {
+                /* Display to the user that they must enter 0 
+                for no or 1 for yes for the phonetic symbol. */
+                std::cout << "\n" << LIGHT_RED << showPhoneticSymbolInt
+                << " is out of range for choices.\nPlease enter either 0 "
+                << "for no or 1 for yes." << WHITE << "\n";
+            }
+        }
+        /* Runs if std::stoi() could not convert the user's 
+        string input into an integer for the symbol choice. */
+        catch (std::invalid_argument) {
+            /* Display to the user that they need to enter
+            a valid integer for the symbol choice. */
+            std::cout << "\n" << LIGHT_RED << showPhoneticSymbolStr
+            << " is not a valid integer.\nPlease enter a valid integer."
+            << WHITE << "\n";
+        }
+    }
 }
