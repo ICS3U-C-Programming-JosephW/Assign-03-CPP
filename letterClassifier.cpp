@@ -201,7 +201,7 @@ int main() {
                     << "Do you want a phonetic "
                     << "word to be displayed as an example "
                     << "relating to your chosen letter?\n"
-                    << R"(Choices are 0 for "no" and 1 for "yes" )"
+                    << R"(Choices are 0 for "no" or 1 for "yes" )"
                     << "(WARNING: any characters following "
                     << "your integer will be ignored):"
                     << WHITE << "\n";
