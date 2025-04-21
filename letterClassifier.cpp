@@ -242,7 +242,7 @@ int main() {
                         /* Display to the user that they need to enter
                         a valid integer for the example choice. */
                         std::cout << "\n" << LIGHT_RED << showPhoneticExampleStr
-                        << " is not a valid integer.\n "
+                        << " is not a valid integer.\n"
                         << "Please enter a valid integer." << WHITE << "\n";
                     }
                 }
