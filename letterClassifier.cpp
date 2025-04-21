@@ -66,7 +66,7 @@ int main() {
     std::string userDisplayType, lowercaseUserDisplayType;
 
     /* Declare the suffix of the letter place, only 
-    needed if the user display type is complex. */
+    needed if the user display type is "complex." */
     std::string letterPlaceSuffix;
 
     /* Declare the choice variables as strings
@@ -133,7 +133,7 @@ int main() {
         // Ask the user for their desired display type.
         std::cout << "\n" << LIGHT_CYAN
         << "Enter a display type " << "for the letter.\n"
-        << R"(Choices are "simple" (less detailed answer), and "complex")"
+        << R"(Choices are "simple" (less detailed answer), or "complex")"
         << " (more detailed answer):" << WHITE << "\n";
 
         // Store the input into the user display type variable.
@@ -159,8 +159,8 @@ int main() {
             // Otherwise, they did not enter a valid display type.
             // Display to the user that they must enter a valid choice.
             std::cout << "\n" << LIGHT_RED << userDisplayType << " is not "
-            << "a valid choice.\n" << "Please enter either simple or "
-            << "complex for the display type." << WHITE << "\n";
+            << "a valid choice.\n" << R"(Please enter either "simple" or )"
+            << R"("complex" for the display type.)" << WHITE << "\n";
         }
     }
 
@@ -172,7 +172,7 @@ int main() {
         to std::stoi(). */
         std::cout << "\n" << LIGHT_YELLOW << "Do you want a phonetic symbol "
         << "to be displayed for the sound your letter makes?\n"
-        << "Choices are 0 for no and 1 for yes "
+        << R"(Choices are 0 for "no" or 1 for "yes" )"
         << "(WARNING: any characters following "
         << "your integer will be ignored):"
         << WHITE << "\n";
@@ -187,8 +187,8 @@ int main() {
             // Attempt to convert the entered string into an integer.
             showPhoneticSymbolInt = std::stoi(showPhoneticSymbolStr);
 
-            /* Check if the user entered 0 for no or 1 for yes
-            for the phonetic symbol. */
+            /* Check if the user entered 0 for "no" or 1 for
+            "yes" for the phonetic symbol. */
             if (showPhoneticSymbolInt == 0
             || showPhoneticSymbolInt == 1) {
                 /* Construct a nested infinite while loop 
@@ -201,7 +201,7 @@ int main() {
                     << "Do you want a phonetic "
                     << "word to be displayed as an example "
                     << "relating to your chosen letter?\n"
-                    << "Choices are 0 for no and 1 for yes "
+                    << R"(Choices are 0 for "no" and 1 for "yes" )"
                     << "(WARNING: any characters following "
                     << "your integer will be ignored):"
                     << WHITE << "\n";
@@ -218,8 +218,8 @@ int main() {
                         showPhoneticExampleInt =
                         std::stoi(showPhoneticExampleStr);
 
-                        /* Check if the user entered 0 for no
-                        or 1 for yes for the phonetic example. */
+                        /* Check if the user entered 0 for "no"
+                        or 1 for "yes" for the phonetic example. */
                         if (showPhoneticExampleInt == 0
                         || showPhoneticExampleInt == 1) {
                             // Break the inner infinite while loop.
@@ -227,12 +227,12 @@ int main() {
                         } else {
                             /* Otherwise, the user entered an integer
                             out of range for the example choice. */
-                            /* Display to the user that they must enter 0 
-                            for no or 1 for yes for the phonetic example. */
+                            /* Display to the user that they must enter 0 for
+                            "no" or 1 for "yes" for the phonetic example. */
                             std::cout << "\n" << LIGHT_RED
                             << showPhoneticExampleInt << " is out of range "
                             << "for choices.\nPlease enter either 0 "
-                            << "for no or 1 for yes." << WHITE << "\n";
+                            << R"(for "no" or 1 for "yes.")" << WHITE << "\n";
                         }
                     }
 
@@ -252,10 +252,10 @@ int main() {
                 /* Otherwise, the user entered an integer out of range
                 for the symbol choice. */
                 /* Display to the user that they must enter 0 
-                for no or 1 for yes for the phonetic symbol. */
+                for "no" or 1 for "yes" for the phonetic symbol. */
                 std::cout << "\n" << LIGHT_RED << showPhoneticSymbolInt
                 << " is out of range for choices.\nPlease enter either 0 "
-                << "for no or 1 for yes." << WHITE << "\n";
+                << R"(for "no" or 1 for "yes.")" << WHITE << "\n";
             }
         }
         /* Runs if std::stoi() could not convert the user's 
