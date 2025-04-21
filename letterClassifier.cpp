@@ -8,6 +8,9 @@ or semivowel. It also allows the user to find extra
 information about a particular letter by displaying
 phonetic symbols and examples if desired. */
 
+/* Include windows header file for changing the
+console output page. */
+#include <windows.h>
 /* Include the iostream library and others for input,
 output, and other functions used in this program. */
 #include <algorithm>
@@ -17,6 +20,11 @@ output, and other functions used in this program. */
 
 // Runs the main function.
 int main() {
+    /* Call the console output page function to
+    allow unicode to be displayed in the terminal.
+    ONLY for Windows. */
+    SetConsoleOutputCP(CP_UTF8);
+
     /* Initialize constant string arrays for input 
     error detections and displaying information. */
     const std::array<std::string, 26> ENGLISH_LETTERS = {
