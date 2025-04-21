@@ -8,11 +8,12 @@ or semivowel. It also allows the user to find extra
 information about a particular letter by displaying
 phonetic symbols and examples if desired. */
 
-/* Include the iostream library and others for
-extra functionalities used in this program. */
+/* Include the iostream library and others for input,
+output, and other functions used in this program. */
 #include <algorithm>
 #include <array>
 #include <iostream>
+#include <string>
 
 // Runs the main function.
 int main() {
@@ -26,10 +27,10 @@ int main() {
     PHONETIC_SYMBOLS = {
         "/ˈeɪ/", "/ˈbiː/", "/ˈsiː/", "/ˈdiː/", "/ˈiː/",
         "/ˈɛf/", "/ˈdʒiː/", "/eɪtʃ/", "/ˈaɪ/", "/ˈdʒeɪ/",
-        "/ˈkeɪ/", "/ˈɛl/", "/ˈɛm/", "/ˈɛn/", "/ˈoʊ/", 
+        "/ˈkeɪ/", "/ˈɛl/", "/ˈɛm/", "/ˈɛn/", "/ˈoʊ/",
         "/ˈpiː/", "/ˈkjuː/", "/ˈɑːr/", "/ˈɛs/", "/ˈtiː/",
         "/ˈjuː/", "/ˈviː/", "/ˈdʌb.əlˈjuː/", "/ˈɛks/",
-        "/ˈwaɪ/", "/ˈziː/ or /ˈzɛd/" 
+        "/ˈwaɪ/", "/ˈziː/ or /ˈzɛd/"
     },
     EXAMPLE_WORDS = {
         "ate", "bean", "cow", "deed", "ever",
@@ -52,20 +53,30 @@ int main() {
     BOLD = "\033[1m";
 
     /* Declare the base and lowercase string 
-    variables for user input. */
+    variables for user input management. */
     std::string userLetter, lowercaseUserLetter;
     std::string userDisplayType, lowercaseUserDisplayType;
 
-    /* Declare the suffix of the letter place, only needed if
-    the user display type is complex. */
+    /* Declare the suffix of the letter place, only 
+    needed if the user display type is complex. */
     std::string letterPlaceSuffix;
 
-    /* Declare the choice variables as string forms
+    /* Declare the choice variables as strings
     for user input. */
     std::string showPhoneticSymbolStr, showPhoneticExampleStr;
-    /* Also, declare the choice variables as integer 
-    forms for conversion management. */
+
+    /* Also, declare the choice variables as integers 
+    for conversion. */
     int showPhoneticSymbolInt, showPhoneticExampleInt;
+
+    /* Declare the letter place and corresponding index
+    as integers for accessing array data. */
+    int letterPlace, correspondingIndex;
+
+    /* Declare the uppercase letter as a character for easier
+    conversion between a string. Used to display the user's
+    chosen letter as a noun, which is grammatically correct. */
+    char uppercaseUserLetter;
 
     // Display a greeting message to the user.
     std::cout << "\n" << LIGHT_PURPLE << "Hello, user! This is a program "
@@ -77,7 +88,7 @@ int main() {
     // Construct an infinite while loop for the letter input.
     while (true) {
         // Ask the user to enter a letter.
-        std::cout << DARK_GRAY << "Enter a letter from a-z or A-Z:" 
+        std::cout << DARK_GRAY << "Enter a letter from a-z or A-Z:"
         << WHITE << "\n";
 
         // Store the input into the user letter variable.
@@ -95,27 +106,27 @@ int main() {
 
         /* Checks if the lowercase form of the letter
         entered is a letter of the English alphabet. */
-        if (std::find(ENGLISH_LETTERS.begin(), ENGLISH_LETTERS.end(), lowercaseUserLetter)
-        != ENGLISH_LETTERS.end()) {
+        if (std::find(ENGLISH_LETTERS.begin(), ENGLISH_LETTERS.end(),
+        lowercaseUserLetter) != ENGLISH_LETTERS.end()) {
             // Break the infinite loop.
             break;
-        }
-        else {
+        } else {
         // Otherwise, they did not enter a valid letter.
         /* Display to the user that they must enter
         a valid letter of the English alphabet. */
-            std::cout << "\n" << LIGHT_RED << userLetter << " is not a valid " 
-            << "letter of the English alphabet.\nPlease enter a letter from a-z or A-Z."
-            << WHITE << "\n\n";
+            std::cout << "\n" << LIGHT_RED << userLetter << " is not a valid "
+            << "letter of the English alphabet.\nPlease enter a letter from "
+            << "a-z or A-Z." << WHITE << "\n\n";
         }
     }
 
     // Construct an infinite while loop for the display input.
     while (true) {
         // Ask the user for their desired display type.
-        std::cout << "\n" << LIGHT_CYAN << "Enter a display type for the letter.\n"
-        << R"(Choices are "simple" (less detailed answer), and "complex" )"
-        << "(more detailed answer):" << WHITE << "\n";
+        std::cout << "\n" << LIGHT_CYAN
+        << "Enter a display type " << "for the letter.\n"
+        << R"(Choices are "simple" (less detailed answer), and "complex")"
+        << " (more detailed answer):" << WHITE << "\n";
 
         // Store the input into the user display type variable.
         std::getline(std::cin, userDisplayType);
@@ -136,8 +147,7 @@ int main() {
         || lowercaseUserDisplayType == "complex") {
             // Break the infinite loop.
             break;
-        }
-        else {
+        } else {
             // Otherwise, they did not enter a valid display type.
             // Display to the user that they must enter a valid choice.
             std::cout << "\n" << LIGHT_RED << userDisplayType << " is not "
@@ -153,8 +163,8 @@ int main() {
         their desired letter. */
         std::cout << "\n" << LIGHT_YELLOW << "Do you want a phonetic symbol "
         << "to be displayed for the sound your letter makes?\n"
-        << R"(Choices are "0" for no and "1" for yes:)" << WHITE << "\n";
- 
+        << "Choices are 0 for no and 1 for yes:" << WHITE << "\n";
+
         /* Store the input into the string form of the phonetic 
         symbol variable. */
         std::getline(std::cin, showPhoneticSymbolStr);
@@ -165,18 +175,22 @@ int main() {
             // Attempt to convert the entered string into an integer.
             showPhoneticSymbolInt = std::stoi(showPhoneticSymbolStr);
 
-            // Check if the user entered 0 for no or 1 for yes.
-            if (showPhoneticSymbolInt == 0 
+            /* Check if the user entered 0 for no or 1 for yes
+            for the phonetic symbol. */
+            if (showPhoneticSymbolInt == 0
             || showPhoneticSymbolInt == 1) {
                 /* Construct a nested infinite while loop 
                 for the phonetic example choice input. */ 
                 while (true) {
                     /* Ask the user if they want a phonetic
                     example word for their desired letter. */
-                    std::cout << "\n" << LIGHT_BLUE << "Do you want a phonetic "
-                    << "word to be displayed as an example relating to your chosen letter?\n"
-                    << R"(Enter "0" for no and "1" for yes:)" << WHITE << "\n";
-            
+                    std::cout << "\n" << LIGHT_BLUE
+                    << "Do you want a phonetic "
+                    << "word to be displayed as an example "
+                    << "relating to your chosen letter?\n"
+                    << "Choices are 0 for no and 1 for yes:"
+                    << WHITE << "\n";
+
                     /* Store the input into the string 
                     form of the example variable. */
                     std::getline(std::cin, showPhoneticExampleStr);
@@ -184,23 +198,25 @@ int main() {
                     /* Try to validate and proceed with the
                     user's choice for a phonetic example.*/
                     try {
-                        // Attempt to convert the entered string into an integer.
-                        showPhoneticExampleInt = std::stoi(showPhoneticExampleStr);
+                        /* Attempt to convert the entered 
+                        string into an integer. */ 
+                        showPhoneticExampleInt =
+                        std::stoi(showPhoneticExampleStr);
 
                         /* Check if the user entered 0 for no
                         or 1 for yes for the phonetic example. */
-                        if (showPhoneticExampleInt == 0 
+                        if (showPhoneticExampleInt == 0
                         || showPhoneticExampleInt == 1) {
                             // Break the inner infinite while loop.
                             break;
-                        }
-                        else {
+                        } else {
                             /* Otherwise, the user entered an integer
                             out of range for the example choice. */
                             /* Display to the user that they must enter 0 
                             for no or 1 for yes for the phonetic example. */
-                            std::cout << "\n" << LIGHT_RED << showPhoneticExampleInt
-                            << " is out of range for choices.\nPlease enter either 0 "
+                            std::cout << "\n" << LIGHT_RED
+                            << showPhoneticExampleInt << " is out of range "
+                            << "for choices.\nPlease enter either 0 "
                             << "for no or 1 for yes." << WHITE << "\n";
                         }
                     }
@@ -211,16 +227,15 @@ int main() {
                         /* Display to the user that they need to enter
                         a valid integer for the example choice. */
                         std::cout << "\n" << LIGHT_RED << showPhoneticExampleStr
-                        << " is not a valid integer.\nPlease enter a valid integer."
-                        << WHITE << "\n";
+                        << " is not a valid integer.\n "
+                        << "Please enter a valid integer." << WHITE << "\n";
                     }
                 }
                 // Break the outer infinite while loop.
                 break;
-            }
-            /* Otherwise, the user entered an integer out of range
-            for the symbol choice. */
-            else {
+            } else {
+                /* Otherwise, the user entered an integer out of range
+                for the symbol choice. */
                 /* Display to the user that they must enter 0 
                 for no or 1 for yes for the phonetic symbol. */
                 std::cout << "\n" << LIGHT_RED << showPhoneticSymbolInt
@@ -242,7 +257,7 @@ int main() {
     /* Determine the place of the lowercase chosen letter in the
     English alphabet by finding its index in the array of English
     letters and adding it by 1. */
-    int letterPlace = std::distance(ENGLISH_LETTERS.begin(),
+    letterPlace = std::distance(ENGLISH_LETTERS.begin(),
     std::find(ENGLISH_LETTERS.begin(), ENGLISH_LETTERS.end(),
     lowercaseUserLetter)) + 1;
 
@@ -250,27 +265,27 @@ int main() {
     if ((letterPlace % 10 == 1) && (letterPlace % 100 != 11)) {
         // Set the letter place suffix to "st."
         letterPlaceSuffix = "st";
-    }
-    else if ((letterPlace % 10 == 2) && (letterPlace % 100 != 12))
-    {
+    } else if ((letterPlace % 10 == 2) && (letterPlace % 100 != 12)) {
         /* Otherwise, check if the letter place ends in 2 
         and does not end in 12. */
         // Set the letter place suffix to "nd."
         letterPlaceSuffix = "nd";
-    }
-    else if ((letterPlace % 10 == 3) && (letterPlace % 100 != 13)) {
-        /* Otherwise, check if the letter place ends in 2 
-        and does not end in 12. */
+    } else if ((letterPlace % 10 == 3) && (letterPlace % 100 != 13)) {
+        /* Otherwise, check if the letter place ends in 3 
+        and does not end in 13. */
         // Set the letter place suffix to "rd."
         letterPlaceSuffix = "rd";
-    }
-    else
-    {
+    } else {
         /* Otherwise, it has to be "th." 
         That is the only other suffix. */
         // Set the letter place suffix to "th."
         letterPlaceSuffix = "th";
     }
+
+    /* Convert the user's chosen letter to uppercase.
+    The user's letter is a single-character string, 
+    so indexing it makes it a character. */
+    uppercaseUserLetter = std::toupper(userLetter[0]);
 
     /* Use a switch statement with the user's chosen letter in
     lowercase to determine if it is a consonant, vowel, 
@@ -289,27 +304,28 @@ int main() {
             if (lowercaseUserDisplayType == "simple") {
                 /* Display to the user that their
                 letter in uppercase is a vowel. */
-                std::cout << "\n" << LIGHT_PURPLE << "The letter " 
-                << (char)std::toupper(lowercaseUserLetter[0]) 
-                << " is a vowel." << WHITE << "\n";
-            } 
-            
+                std::cout << "\n" << LIGHT_PURPLE << "The letter "
+                << uppercaseUserLetter << " is a vowel." << WHITE
+                << "\n";
+            }
+
             /* Check if the user display type 
             in lowercase is "complex." */
             if (lowercaseUserDisplayType == "complex") {
                 /* Display to the user that their letter in
                 uppercase is a vowel with more information. */
-                std::cout << "\n" << BOLD << "The letter " 
-                << (char)std::toupper(lowercaseUserLetter[0])
-                << ", the " << letterPlace << letterPlaceSuffix
-                << " letter of the English alphabet, is a vowel.\n"
-                << "Vowels are speech sounds made with little to no "
-                << "closure of the vocal tract.";
+                std::cout << "\n" << BOLD << "The letter "
+                << uppercaseUserLetter << ", the "
+                << letterPlace << letterPlaceSuffix
+                << " letter of the " << "English alphabet, "
+                << "is a vowel.\nVowels are speech sounds made "
+                << "with little to no closure of the vocal tract."
+                << WHITE << "\n";
             }
             /* Break the switch statement to escape it 
             and prevent executing other cases. */
             break;
-        
+
         // The semivowel cases.
         case 'w':
         case 'y':
@@ -318,28 +334,27 @@ int main() {
             if (lowercaseUserDisplayType == "simple") {
                 /* Display to the user that their
                 letter in uppercase is a semivowel. */
-                std::cout << "\n" << LIGHT_PURPLE << "The letter " 
-                << (char)std::toupper(lowercaseUserLetter[0]) 
-                << " is a semivowel." << WHITE << "\n";
-            } 
-            
+                std::cout << "\n" << LIGHT_PURPLE << "The letter "
+                << uppercaseUserLetter << " is a semivowel." << WHITE
+                << "\n";
+            }
+
             /* Check if the user display type 
             in lowercase is "complex." */
             if (lowercaseUserDisplayType == "complex") {
                 /* Display to the user that their letter in
                 uppercase is a semivowel with more information. */
-                std::cout << "\n" << BOLD << "The letter " 
-                << (char)std::toupper(lowercaseUserLetter[0])
-                << ", the " << letterPlace << letterPlaceSuffix
-                << " letter of the English alphabet, is a semivowel.\n"
-                << "Semivowels are special speech sounds that share "
-                << "some characteristics of a vowel and a consonant."
-                << WHITE << "\n";
+                std::cout << "\n" << BOLD << "The letter "
+                << uppercaseUserLetter << ", the " << letterPlace
+                << letterPlaceSuffix << " letter of the English "
+                << "alphabet, is a semivowel.\nSemivowels are special "
+                << "speech sounds that share some characteristics of a "
+                << "vowel and a consonant." << WHITE << "\n";
             }
             /* Break the switch statement to escape it 
             and prevent executing other cases. */
             break;
-        
+
         /* Default cases must be consonants since 
         the vowels and semivowels were covered. */
         default:
@@ -348,22 +363,22 @@ int main() {
             if (lowercaseUserDisplayType == "simple") {
                 /* Display to the user that their
                 letter in uppercase is a consonant. */
-                std::cout << "\n" << LIGHT_PURPLE << "The letter " 
-                << (char)std::toupper(lowercaseUserLetter[0]) << " is a consonant."
+                std::cout << "\n" << LIGHT_PURPLE << "The letter "
+                << uppercaseUserLetter << " is a consonant."
                 << WHITE << "\n";
-            } 
-            
+            }
+
             /* Check if the user display type 
             in lowercase is "complex." */
             if (lowercaseUserDisplayType == "complex") {
                 /* Display to the user that their letter in
                 uppercase is a consonant with more information. */
-                std::cout << "\n" << BOLD << "The letter " 
-                << (char)std::toupper(lowercaseUserLetter[0])
-                << ", the " << letterPlace << letterPlaceSuffix
-                << " letter of the English alphabet, is a consonant.\n"
-                << "Consonants are speech sounds made with some or "
-                << "complete closure of the vocal tract." << WHITE << "\n";
+                std::cout << "\n" << BOLD << "The letter "
+                << uppercaseUserLetter << ", the " << letterPlace
+                << letterPlaceSuffix << " letter of the English "
+                << "alphabet, is a consonant.\nConsonants are "
+                << "speech sounds made with some or complete "
+                << "closure of the vocal tract." << WHITE << "\n";
             }
             /* Break the switch statement to escape it 
             and prevent executing other cases. */
@@ -372,21 +387,22 @@ int main() {
 
     /* Set the corresponding index to the place of the letter
     subtracted by one to revert back to array indexes. */
-    int correspondingIndex = letterPlace - 1;
+    correspondingIndex = letterPlace - 1;
 
     /* Check if the user wanted a phonetic symbol
     to be displayed based on the letter. */
     if (showPhoneticSymbolInt == 1) {
         /* Set the corresponding symbol to the corresponding 
         index of the phonetic symbol array. */
-        std::string correspondingPhoneticSymbol = PHONETIC_SYMBOLS[correspondingIndex];
+        std::string correspondingPhoneticSymbol =
+        PHONETIC_SYMBOLS[correspondingIndex];
 
         /* Display to the user the phonetic 
         symbol for the letter when said alone. */
-        std::cout << "\n" << LIGHT_CYAN << "The phonetic notation for the letter "
-        << (char)std::toupper(lowercaseUserLetter[0]) << " when said in "
-        << "isolation is " << correspondingPhoneticSymbol << "."
-        << WHITE << "\n";
+        std::cout << "\n" << LIGHT_CYAN <<
+        "The phonetic notation for the letter "
+        << uppercaseUserLetter << " when said in isolation is "
+        << correspondingPhoneticSymbol << "." << WHITE << "\n";
     }
 
     /* Check if the user wanted a phonetic example
@@ -394,14 +410,14 @@ int main() {
     if (showPhoneticExampleInt == 1) {
         /* Set the corresponding symbol to the corresponding 
         index of the example words array. */
-        std::string correspondingExampleWord = EXAMPLE_WORDS[correspondingIndex];
+        std::string correspondingExampleWord =
+        EXAMPLE_WORDS[correspondingIndex];
 
-        /* Display to the user the phonetic 
-        symbol for the letter when said alone. */
-        std::cout << "\n" << DARK_GRAY << "One example of a word that " 
-        "uses the letter " << (char)std::toupper(lowercaseUserLetter[0]) 
-        << " when said in " << "isolation is " << correspondingExampleWord 
-        << "." << WHITE << "\n";
+        /* Display to the user a word that uses
+        the letter they chose in uppercase. */
+        std::cout << "\n" << DARK_GRAY << "One example of a word "
+        "that uses the letter " << uppercaseUserLetter << " is "
+        << correspondingExampleWord << "." << WHITE << "\n";
     }
 
     // Finally, thank the user for using this program.
