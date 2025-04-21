@@ -160,10 +160,14 @@ int main() {
     for the phonetic symbol choice input. */
     while (true) {
         /* Ask the user if they want a phonetic symbol for 
-        their desired letter. */
+        their desired letter. Display a warning in relation 
+        to std::stoi(). */
         std::cout << "\n" << LIGHT_YELLOW << "Do you want a phonetic symbol "
         << "to be displayed for the sound your letter makes?\n"
-        << "Choices are 0 for no and 1 for yes:" << WHITE << "\n";
+        << "Choices are 0 for no and 1 for yes "
+        << "(WARNING: any characters following "
+        << "your integer will be ignored):"
+        << WHITE << "\n";
 
         /* Store the input into the string form of the phonetic 
         symbol variable. */
@@ -183,12 +187,15 @@ int main() {
                 for the phonetic example choice input. */ 
                 while (true) {
                     /* Ask the user if they want a phonetic
-                    example word for their desired letter. */
+                    example word for their desired letter.
+                    Display a warning in relation to std::stoi(). */
                     std::cout << "\n" << LIGHT_BLUE
                     << "Do you want a phonetic "
                     << "word to be displayed as an example "
                     << "relating to your chosen letter?\n"
-                    << "Choices are 0 for no and 1 for yes:"
+                    << "Choices are 0 for no and 1 for yes "
+                    << "(WARNING: any characters following "
+                    << "your integer will be ignored):"
                     << WHITE << "\n";
 
                     /* Store the input into the string 
