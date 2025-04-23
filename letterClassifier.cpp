@@ -395,9 +395,6 @@ int main() {
                 << "speech sounds made with some or complete "
                 << "closure of the vocal tract." << WHITE << "\n";
             }
-            /* Break the switch statement to escape it 
-            and prevent executing other cases. */
-            break;
     }
 
     /* Set the corresponding index to the place of the letter
